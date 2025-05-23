@@ -11,7 +11,10 @@ ENV PORT=5555
 # ---------- entrypoint ----------
 # Use celery → flower, picking up the RabbitMQ URL & credentials from Railway vars
 ENTRYPOINT ["/bin/sh", "-c"]
-CMD ["celery --broker=${RABBITMQ_URL} flower \
-    --address=0.0.0.0 \
-    --port=${PORT} \
-    --basic_auth=${FLOWER_USER}:${FLOWER_PASS}"]
+CMD ["celery", \
+    "-A", ${CELERY_APP}, \
+    "flower", \
+    "--broker=${RABBITMQ_URL}", \
+    "--address=0.0.0.0", \
+    "--port=${PORT}", \
+    "--basic_auth=${FLOWER_USER}:${FLOWER_PASS}"]
